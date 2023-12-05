@@ -57,15 +57,15 @@ private fun sumOfMinimumPower(gameData: Map<Int, List<List<String>>>): Int {
             hand.forEach { cube ->
                 when (cube.getCubesColor()) {
                     "blue" -> {
-                        maxBlue = cube.getCubesCount().coerceAtLeast(maxBlue)
+                        maxBlue = cube.countCubes().coerceAtLeast(maxBlue)
                     }
 
                     "red" -> {
-                        maxRed = cube.getCubesCount().coerceAtLeast(maxRed)
+                        maxRed = cube.countCubes().coerceAtLeast(maxRed)
                     }
 
                     "green" -> {
-                        maxGreen = cube.getCubesCount().coerceAtLeast(maxGreen)
+                        maxGreen = cube.countCubes().coerceAtLeast(maxGreen)
                     }
                 }
             }
@@ -83,15 +83,15 @@ private fun List<String>.isPossible(): Boolean {
     this.forEach { cube ->
         when (cube.getCubesColor()) {
             "blue" -> {
-                blueOk = cube.getCubesCount() <= blueCubes
+                blueOk = cube.countCubes() <= blueCubes
             }
 
             "red" -> {
-                redOk = cube.getCubesCount() <= redCubes
+                redOk = cube.countCubes() <= redCubes
             }
 
             "green" -> {
-                greenOk = cube.getCubesCount() <= greenCubes
+                greenOk = cube.countCubes() <= greenCubes
             }
         }
     }
@@ -99,7 +99,7 @@ private fun List<String>.isPossible(): Boolean {
     return blueOk && redOk && greenOk
 }
 
-private fun String.getCubesCount(): Int {
+private fun String.countCubes(): Int {
     return this.split(" ").first().toInt()
 }
 
