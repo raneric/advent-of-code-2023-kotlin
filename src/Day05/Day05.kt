@@ -18,7 +18,7 @@ val almanacTitle = listOf(
         "humidity-to-location map:")
 
 fun main() {
-    val seeds = extractSeeds(input)
+    val seeds = extractSeeds()
     val mapper = stepList(almanacTitle)
     val game = Garden(seeds, mapper)
 
@@ -99,7 +99,7 @@ class MapperClass(private val mappingData: List<Triple<Long, Long, Long>>) {
     }
 }
 
-fun extractSeeds(data: List<String>): Seeds {
+fun extractSeeds(): Seeds {
     val seedLine = input[0]
     val seedsList = seedLine.split(" ").filter { it[0].isDigit() }.map { it.toLong() }
     return Seeds(seedsList)
