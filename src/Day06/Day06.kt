@@ -1,11 +1,9 @@
 package Day06
 
-import org.w3c.dom.ranges.Range
 import println
 import readInput
-import javax.print.attribute.standard.NumberUp
 
-private val TEST_DATA = false
+private const val TEST_DATA = false
 private const val TEST_FILE = "Day06/Day06_test"
 private const val INPUT_FILE = "Day06/Day06"
 val input = if (TEST_DATA) readInput(TEST_FILE) else readInput(INPUT_FILE)

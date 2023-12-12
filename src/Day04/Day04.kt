@@ -3,7 +3,7 @@ package Day04
 import println
 import readInput
 
-private val TEST_DATA = false
+private const val TEST_DATA = false
 private const val TEST_FILE = "Day04/Day04_test"
 private const val INPUT_FILE = "Day04/Day04"
 val input = if (TEST_DATA) readInput(TEST_FILE) else readInput(INPUT_FILE)

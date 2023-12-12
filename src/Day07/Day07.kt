@@ -3,7 +3,7 @@ package Day07
 import println
 import readInput
 
-private const val TEST_DATA = true
+private const val TEST_DATA = false
 private const val TEST_FILE = "Day07/Day07_test"
 private const val INPUT_FILE = "Day07/Day07"
 private val strengthWithJoker = mapOf(

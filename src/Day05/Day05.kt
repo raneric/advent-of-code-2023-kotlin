@@ -4,7 +4,7 @@ import println
 import readInput
 import kotlin.streams.asStream
 
-private val TEST_DATA = true
+private const val TEST_DATA = true
 private const val TEST_FILE = "Day05/Day05_test"
 private const val INPUT_FILE = "Day05/Day05"
 val input = if (TEST_DATA) readInput(TEST_FILE) else readInput(INPUT_FILE)
