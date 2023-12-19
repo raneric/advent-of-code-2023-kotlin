@@ -13,165 +13,141 @@ class Area(
         var previousPosition1 = startingPoint
         var previousPosition2 = startingPoint
 
-        var (pipeShape1, position1) = getStartingLoop(startingPipe.shape, startingPoint, true)
-        var (pipeShape2, position2) = getStartingLoop(startingPipe.shape, startingPoint, false)
+        var pipeShape1 = getStartingLoop(startingPipe, true)
+        var pipeShape2 = getStartingLoop(startingPipe, false)
 
         do {
             stepCount++
-            val (currentShape1, currentPosition1) = runThroughPipe(pipeShape1, position1, previousPosition1)
-            val (currentShape2, currentPosition2) = runThroughPipe(pipeShape2, position2, previousPosition2)
+            val currentShape1 = runThroughPipe(pipeShape1, previousPosition1)
+            val currentShape2 = runThroughPipe(pipeShape2, previousPosition2)
 
-            previousPosition1 = position1
-            previousPosition2 = position2
+            previousPosition1 = pipeShape1.position
+            previousPosition2 = pipeShape2.position
 
             pipeShape1 = currentShape1
-            position1 = currentPosition1!!
-
             pipeShape2 = currentShape2
-            position2 = currentPosition2!!
-        } while (position1 != position2)
+
+        } while (pipeShape1 != pipeShape2)
 
         return stepCount
     }
 
-    fun countTiles(): Int {
-        val pipeLoopList = emptyList<Element.Pipe>().toMutableList()
-
-        var (pipeShape, position) = getStartingLoop(startingPipe.shape, startingPoint, true)
-        var previousPosition = startingPoint
-
-        do {
-            val (currentShape, currentPosition) = runThroughPipe(pipeShape, position, previousPosition)
-
-            previousPosition = position
-
-            pipeShape = currentShape
-            position = currentPosition!!
-
-            pipeLoopList.add(currentShape)
-        } while (currentPosition != startingPoint)
-
-        return 0
-    }
-
     private fun getStartingLoop(
-        shape: PipeShape,
-        startingPoint: Position,
+        shape: Element.Pipe,
         moveForward: Boolean,
-    ): Pair<Element.Pipe, Position> {
+    ): Element.Pipe {
 
-        val (forward, backward) = move(startingPoint, shape)
+        val (forward, backward) = move(shape)
         return if (moveForward) {
             val pipe = elements[forward!!.row][forward.column] as Element.Pipe
-            Pair(pipe, forward)
+            pipe
         } else {
             val pipe = elements[backward!!.row][backward.column] as Element.Pipe
-            Pair(pipe, backward)
+            pipe
         }
     }
 
     private fun runThroughPipe(
         currentPipe: Element.Pipe,
-        currentPosition: Position,
         previousPosition: Position,
-    ): Pair<Element.Pipe, Position?> {
-        val (p1, p2) = move(currentPosition, currentPipe.shape)
+    ): Element.Pipe {
+        val (p1, p2) = move(currentPipe)
         return if (p1 == previousPosition) {
             val pipe = elements[p2!!.row][p2.column] as Element.Pipe
-            Pair(pipe, p2)
+            pipe
         } else {
             val pipe = elements[p1!!.row][p1.column] as Element.Pipe
-            Pair(pipe, p1)
+            pipe
         }
     }
 
-    private fun move(currentPosition: Position, shape: PipeShape): Pair<Position?, Position?> {
-        return when (shape) {
+    private fun move(currentPipe: Element.Pipe): Pair<Position?, Position?> {
+        return when (currentPipe.shape) {
             PipeShape.VERTICAL      -> {
-                val p1 = if (currentPosition.isAtEndingRow(elements.lastIndexOfRow))
+                val p1 = if (currentPipe.position.isAtEndingRow(elements.lastIndexOfRow))
                     null
                 else
-                    Position(currentPosition.row + 1, currentPosition.column)
+                    Position(currentPipe.position.row + 1, currentPipe.position.column)
 
-                val p2 = if (currentPosition.isAtStartingRow())
+                val p2 = if (currentPipe.position.isAtStartingRow())
                     null
                 else
                     Position(
-                        currentPosition.row - 1, currentPosition.column
+                        currentPipe.position.row - 1, currentPipe.position.column
                     )
 
                 Pair(p1, p2)
             }
 
             PipeShape.HORIZONTAL    -> {
-                val p1 = if (currentPosition.isAtEndingColumn(elements.lastIndexOfColumn))
+                val p1 = if (currentPipe.position.isAtEndingColumn(elements.lastIndexOfColumn))
                     null
                 else
-                    Position(currentPosition.row, currentPosition.column + 1)
+                    Position(currentPipe.position.row, currentPipe.position.column + 1)
 
-                val p2 = if (currentPosition.isAtStartingColumn())
+                val p2 = if (currentPipe.position.isAtStartingColumn())
                     null
                 else
-                    Position(currentPosition.row, currentPosition.column - 1)
+                    Position(currentPipe.position.row, currentPipe.position.column - 1)
 
                 Pair(p1, p2)
             }
 
             // L shape
             PipeShape.NORTH_TO_EAST -> {
-                val p1 = if (currentPosition.isAtEndingColumn(elements.lastIndexOfColumn))
+                val p1 = if (currentPipe.position.isAtEndingColumn(elements.lastIndexOfColumn))
                     null
                 else
-                    Position(currentPosition.row, currentPosition.column + 1)
+                    Position(currentPipe.position.row, currentPipe.position.column + 1)
 
-                val p2 = if (currentPosition.isAtStartingRow())
+                val p2 = if (currentPipe.position.isAtStartingRow())
                     null
                 else
-                    Position(currentPosition.row - 1, currentPosition.column)
+                    Position(currentPipe.position.row - 1, currentPipe.position.column)
 
                 Pair(p1, p2)
             }
 
             //J shape
             PipeShape.NORTH_TO_WEST -> {
-                val p1 = if (currentPosition.isAtStartingColumn())
+                val p1 = if (currentPipe.position.isAtStartingColumn())
                     null
                 else
-                    Position(currentPosition.row, currentPosition.column - 1)
+                    Position(currentPipe.position.row, currentPipe.position.column - 1)
 
-                val p2 = if (currentPosition.isAtStartingRow())
+                val p2 = if (currentPipe.position.isAtStartingRow())
                     null
                 else
-                    Position(currentPosition.row - 1, currentPosition.column)
+                    Position(currentPipe.position.row - 1, currentPipe.position.column)
                 Pair(p1, p2)
             }
 
             //7 shape
             PipeShape.SOUTH_TO_WEST -> {
-                val p1 = if (currentPosition.isAtStartingColumn())
+                val p1 = if (currentPipe.position.isAtStartingColumn())
                     null
                 else
-                    Position(currentPosition.row, currentPosition.column - 1)
+                    Position(currentPipe.position.row, currentPipe.position.column - 1)
 
-                val p2 = if (currentPosition.isAtEndingRow(elements.lastIndexOfRow))
+                val p2 = if (currentPipe.position.isAtEndingRow(elements.lastIndexOfRow))
                     null
                 else
-                    Position(currentPosition.row + 1, currentPosition.column)
+                    Position(currentPipe.position.row + 1, currentPipe.position.column)
 
                 Pair(p1, p2)
             }
 
             //F shape
             PipeShape.SOUTH_TO_EAST -> {
-                val p1 = if (currentPosition.isAtEndingColumn(elements.lastIndexOfColumn))
+                val p1 = if (currentPipe.position.isAtEndingColumn(elements.lastIndexOfColumn))
                     null
                 else
-                    Position(currentPosition.row, currentPosition.column + 1)
+                    Position(currentPipe.position.row, currentPipe.position.column + 1)
 
-                val p2 = if (currentPosition.isAtEndingRow(elements.lastIndexOfRow))
+                val p2 = if (currentPipe.position.isAtEndingRow(elements.lastIndexOfRow))
                     null
                 else
-                    Position(currentPosition.row + 1, currentPosition.column)
+                    Position(currentPipe.position.row + 1, currentPipe.position.column)
                 Pair(p1, p2)
             }
         }
