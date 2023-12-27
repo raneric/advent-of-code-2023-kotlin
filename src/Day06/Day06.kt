@@ -18,7 +18,7 @@ fun main() {
 
     fun part2(): Int {
         val accRange = LongRange(1, dataForOneRace.first)
-        return accRange.getWinNUmber(dataForOneRace.second)
+        return accRange.getWinNumber(dataForOneRace.second)
     }
 
     part1().println()
@@ -27,12 +27,12 @@ fun main() {
 
 private fun beatRecordNumber(data: Map<Int, Int>): Int {
     return data.map { (time, record) ->
-        IntRange(1, time).getWinNUmber(record)
+        IntRange(1, time).getWinNumber(record)
     }.reduce { acc, value -> acc * value }
 }
 
 // FIXME: TO REFACTOR USING GENERICS
-private fun IntRange.getWinNUmber(record: Int): Int {
+private fun IntRange.getWinNumber(record: Int): Int {
     var winChance = 0
     this.forEach { currentHoldTime ->
         val reachDistance = (this.last - currentHoldTime) * currentHoldTime
@@ -42,7 +42,7 @@ private fun IntRange.getWinNUmber(record: Int): Int {
 }
 
 // FIXME: TO REFACTOR USING GENERICS
-private fun LongRange.getWinNUmber(record: Long): Int {
+private fun LongRange.getWinNumber(record: Long): Int {
     var winChance = 0
     this.forEach { currentHoldTime ->
         val reachDistance = (this.last - currentHoldTime) * currentHoldTime

@@ -3,7 +3,7 @@ package Day10
 import println
 import readInput
 
-private const val TEST_DATA = true
+private const val TEST_DATA = false
 private const val TEST_FILE = "Day10/Day10_test"
 private const val INPUT_FILE = "Day10/Day10"
 
@@ -16,7 +16,7 @@ fun main() {
     }
 
     fun part2(): Int {
-        return area.countTiles()
+        return 0
     }
 
     part1().println()

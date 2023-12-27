@@ -4,9 +4,17 @@ package Day10
 enum class PipeShape {
     HORIZONTAL,
     VERTICAL,
+
+    // J shape
     NORTH_TO_WEST,
+
+    // L shape
     NORTH_TO_EAST,
+
+    // 7 shape
     SOUTH_TO_WEST,
+
+    //F shape
     SOUTH_TO_EAST;
 
     fun haveBottomConnection(): Boolean {
