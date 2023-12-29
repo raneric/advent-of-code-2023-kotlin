@@ -13,12 +13,12 @@ private val input = if (TEST_DATA) readInput(TEST_FILE) else readInput(INPUT_FIL
 fun main() {
 
     fun part1(): Long {
-        val universe = expandedUniverse(2)
+        val universe = expandedUniverse(expansionFactor = 2)
         return universe.getSumGalaxyDistance()
     }
 
     fun part2(): Long {
-        val universe = expandedUniverse(1_000_000)
+        val universe = expandedUniverse(expansionFactor = 1_000_000)
         return universe.getSumGalaxyDistance()
     }
 
